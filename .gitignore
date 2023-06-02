@@ -1,3 +1,7 @@
+# initial data -- download from https://www.yelp.com/dataset, add to server/initial_data folder, and run "python start.py" from server folder
+server/initial_data/yelp_dataset.tar
+server/initial_data/yelp_photos.tar
+
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -33,3 +37,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
