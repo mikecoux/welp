@@ -3,16 +3,22 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useForm } from "react-hook-form"
+import { useRouter } from 'next/navigation';
 
 export default function Navbar () {
     const { register, handleSubmit } = useForm()
-    const onSubmit = (data:any) => console.log(data)
+    const onSubmit = (data:any) => {
+        // console.log(data);
+        router.push('/search')
+    }
+    const router = useRouter()
 
     return (
-        <nav className="flex flex-row space-x-2 items-center justify-between mx-2">
+        <nav className="flex flex-row space-x-2 items-center justify-between m-4">
             <Link href='/' className="justify-self-start"><Image src="/assets/welp-logo.png" width={110} height={40} alt="welp-logo"/></Link>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-x-2 items-center flex drop-shadow-md">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-x-2 items-center flex shadow-md">
                 <input {...register('searchProducts')} placeholder=" tacos, cheap dinner, Max's" className="rounded text-black"/>
+                <span className="text-neutral-200">|</span>
                 <input {...register('searchLocation')} placeholder=" Denver, CO" className="rounded" />
                 <button type="submit"><Image src="/assets/search-icon.jpeg" alt="search" height={30} width={30} className="rounded text-black"/></button>
             </form>
