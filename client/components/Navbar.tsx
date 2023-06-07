@@ -7,13 +7,10 @@ import { useForm, Controller } from "react-hook-form"
 import { useRouter, useSearchParams } from 'next/navigation';
 import SearchLocation from "./SearchLocation"
 import { useLoadScript } from '@react-google-maps/api'
-import { LatLng } from "use-places-autocomplete"
-import { types } from "util"
 
 const libraries:any = ["places"]
 
 export default function Navbar () {
-    const [ selected, setSelected ] = useState<LatLng|null>(null)
 
     // Loads the JS script for the Google Maps API with the places library
     const { isLoaded } = useLoadScript({
@@ -26,6 +23,7 @@ export default function Navbar () {
     const searchParams:any = useSearchParams()!;
 
     // creates a query string with data from an object passed as a parameter
+    // not sure what useCallback does
     const createQueryString = useCallback(
         (obj:any) => {
             // not exactly sure what is being constructed here
@@ -51,7 +49,7 @@ export default function Navbar () {
         <nav className="flex flex-row space-x-2 items-center justify-between m-4">
             <Link href='/' className="justify-self-start"><Image src="/assets/welp-logo.png" width={110} height={40} alt="welp-logo"/></Link>
             <form onSubmit={handleSubmit(onSubmit)} className="space-x-2 items-center flex shadow-md">
-                <input {...register('find_desc')} placeholder=" tacos, cheap dinner, ..." className="rounded outline-none"/>
+                <input {...register('find_desc')} placeholder="  tacos, cheap dinner, ..." className="rounded outline-none"/>
                 <span className="text-neutral-200">|</span>
 
                 {isLoaded ? 
@@ -59,9 +57,7 @@ export default function Navbar () {
                         control={control}
                         name='find_loc'
                         render={({ field: { onChange } }) => (
-                            <SearchLocation 
-                            onChange={onChange}
-                            setSelected={setSelected} />
+                            <SearchLocation onChange={onChange} />
                         )}
                     /> 
                 : null}
