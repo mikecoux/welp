@@ -1,0 +1,3 @@
+{
+    "/biz/:id": "/biz/:id?_embed=reviews"
+}

@@ -30,24 +30,24 @@ export default function Hero(){
             setProgBar2(0);
             setProgBar3(0);
             const sliderInterval = setInterval(() => {
-                setProgBar(progBar => (progBar + 2) % 100)
-            }, 80)
+                setProgBar(progBar => (progBar + 1) % 100)
+            }, 40)
             return () => clearInterval(sliderInterval)
 
         } else if (heroIndex === 1 ) {
             setProgBar(100);
             setProgBar3(0);
             const sliderInterval = setInterval(() => {
-                setProgBar2(progBar2 => (progBar2 + 2) % 100)
-            }, 80)
+                setProgBar2(progBar2 => (progBar2 + 1) % 100)
+            }, 40)
             return () => clearInterval(sliderInterval)
 
         } else {
             setProgBar(100);
             setProgBar2(100);
             const sliderInterval = setInterval(() => {
-                setProgBar3(progBar3 => (progBar3 + 2) % 100)
-            }, 80)
+                setProgBar3(progBar3 => (progBar3 + 1) % 100)
+            }, 40)
             return () => clearInterval(sliderInterval)
         }
     },[heroIndex])

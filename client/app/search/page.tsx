@@ -14,13 +14,6 @@ async function getData() {
 export default async function Search(){
     const data = await getData()
 
-    // const id = 1
-    // const img = "/assets/fillerimg.png"
-    // const name = 'Testaurant'
-    // const rating = 4.5
-    // const tags = ['food', 'like', 'good', 'nice']
-    // const highlight = "This restaurant good. Very fast and convenient. I like this place and recommend it."
-
     const allBizCards = data.map((biz: any) => {
         return <BusinessCard 
                     key={biz.id} 
@@ -29,7 +22,8 @@ export default async function Search(){
                     name={biz.name} 
                     rating={biz.rating} 
                     tags={biz.tags} 
-                    highlight={biz.highlight} />
+                    highlight={biz.highlight} 
+                />
     })
 
     return (

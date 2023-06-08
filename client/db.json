@@ -16,5 +16,39 @@
             "tags": ["meh", "cheap", "no bueno"],
             "highlight": "Not my favorite. Would not bring a family here. The waiter had dirty fingernails."
         }
+    ],
+    "reviews": [
+        {
+            "id": 1,
+            "bizId": 1,
+            "username": "mike",
+            "rating": 4,
+            "description": "nuthin",
+            "img": "/assets/fillerimg.png"
+        },
+        {
+            "id": 2,
+            "bizId": 2,
+            "username": "mike",
+            "rating": 3,
+            "description": "hello there",
+            "img": "/assets/fillerimg.png"
+        },
+        {
+            "id": 3,
+            "bizId": 1,
+            "username": "peter",
+            "rating": 5,
+            "description": "i like tacos",
+            "img": "/assets/fillerimg.png"
+        },
+        {
+            "id": 4,
+            "bizId": 2,
+            "username": "peter",
+            "rating": 1,
+            "description": "testing",
+            "img": "/assets/fillerimg.png"
+        }
     ]
 }
