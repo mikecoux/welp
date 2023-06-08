@@ -1,12 +1,13 @@
 'use client'
 
 import Image from "next/image"
+import Link from "next/link"
 
-export default function BusinessCard( props:{ key:number, img:string, name:string, rating:number, tags:string[], highlight:string }){
+export default function BusinessCard( props:{ key:number, id:number, img:string, name:string, rating:number, tags:string[], highlight:string }){
     const tagsList = props.tags.map((tag:string) => <span key={tag} className="bg-neutral-200 mr-2 text-sm rounded text-neutral-600 px-1">{tag}</span>)
 
     return (
-        <div className="flex flex-row w-1/2 h-fit mx-8 mt-4 hover:shadow-lg">
+        <Link href={`/biz/${props.id}`} className="flex flex-row h-fit mt-4 hover:shadow-lg">
             <div className="m-4">
                 <Image src={props.img} width={200} height={200} alt="test img" />
             </div>
@@ -18,6 +19,6 @@ export default function BusinessCard( props:{ key:number, img:string, name:strin
                 </div>
                 <p>{props.highlight}</p>
             </div>
-        </div>
+        </Link>
     )
 }

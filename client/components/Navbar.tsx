@@ -49,7 +49,7 @@ export default function Navbar () {
         <nav className="flex flex-row space-x-2 items-center justify-between m-4">
             <Link href='/' className="justify-self-start"><Image src="/assets/welp-logo.png" width={110} height={40} alt="welp-logo"/></Link>
             <form onSubmit={handleSubmit(onSubmit)} className="space-x-2 items-center flex shadow-md">
-                <input {...register('find_desc')} placeholder="  tacos, cheap dinner, ..." className="rounded outline-none"/>
+                <input {...register('find_desc')} placeholder="cheap dinner, plumber, tacos" className="rounded outline-none indent-2.5"/>
                 <span className="text-neutral-200">|</span>
 
                 {isLoaded ? 

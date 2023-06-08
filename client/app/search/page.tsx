@@ -1,41 +1,43 @@
-'use client'
-
 import BusinessCard from "@/components/BusinessCard"
 import SearchMap from "@/components/SearchMap"
-import { useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
 
-const libraries:any = ["places"]
+async function getData() {
+    const res = await fetch('http://localhost:4000/biz');
 
-export default function Search(){
-    const [selected, setSelected] = useState<any>(null)
-    const searchParams = useSearchParams()
+    if (!res.ok) {
+    throw new Error('Failed to fetch data');
+    }
 
-    useEffect(()=> {
-        const coordinatesStr = searchParams.get('find_loc')?.split(',')
-        if (coordinatesStr != undefined) {
+    return res.json();
+}
 
-            const coordinatesObj = {
-                lat: parseFloat(coordinatesStr[0]),
-                lng: parseFloat(coordinatesStr[1])
-            }
-            console.log(coordinatesObj)
-            setSelected(coordinatesObj)
+export default async function Search(){
+    const data = await getData()
 
-        }
-    }, [searchParams])
+    // const id = 1
+    // const img = "/assets/fillerimg.png"
+    // const name = 'Testaurant'
+    // const rating = 4.5
+    // const tags = ['food', 'like', 'good', 'nice']
+    // const highlight = "This restaurant good. Very fast and convenient. I like this place and recommend it."
 
-    const key = 1
-    const img = "/assets/fillerimg.png"
-    const name = 'Testaurant'
-    const rating = 4.5
-    const tags = ['food', 'like', 'good', 'nice']
-    const highlight = "This restaurant good. Very fast and convenient. I like this place and recommend it."
+    const allBizCards = data.map((biz: any) => {
+        return <BusinessCard 
+                    key={biz.id} 
+                    id={biz.id} 
+                    img={biz.img} 
+                    name={biz.name} 
+                    rating={biz.rating} 
+                    tags={biz.tags} 
+                    highlight={biz.highlight} />
+    })
 
     return (
-        <div className="flex flex-row justify-between">
-            <BusinessCard key={key} img={img} name={name} rating={rating} tags={tags} highlight={highlight} />
-            <SearchMap selected={selected} setSelected={setSelected}/>
+        <div className="flex flex-row justify-end space-x-12">
+            <div className="flex flex-col w-[60%] space-y-4">
+                {allBizCards}
+            </div>
+            <SearchMap />
         </div>
     )
 }

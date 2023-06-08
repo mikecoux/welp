@@ -1,0 +1,20 @@
+{
+    "biz": [
+        {
+            "id": 1,
+            "img": "/assets/fillerimg.png",
+            "name": "Testaurant",
+            "rating": 4.5,
+            "tags": ["food", "like", "good", "nice"],
+            "highlight": "This restaurant good. Very fast and convenient. I like this place and recommend it."
+        },
+        {
+            "id": 2,
+            "img": "/assets/fillerimg.png",
+            "name": "TestyMyEsty",
+            "rating": 2.2,
+            "tags": ["meh", "cheap", "no bueno"],
+            "highlight": "Not my favorite. Would not bring a family here. The waiter had dirty fingernails."
+        }
+    ]
+}

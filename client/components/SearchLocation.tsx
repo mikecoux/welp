@@ -1,17 +1,8 @@
 'use client'
 
-import usePlacesAutocomplete, {
-    getGeocode,
-    getLatLng,
-  } from "use-places-autocomplete";
-  import {
-    Combobox,
-    ComboboxInput,
-    ComboboxPopover,
-    ComboboxList,
-    ComboboxOption,
-  } from "@reach/combobox";
-  import "@reach/combobox/styles.css";
+import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
+
+type Suggestion = google.maps.places.AutocompletePrediction;
 
 export default function SearchLocation(
     { onChange }: { onChange:any }
@@ -31,36 +22,57 @@ export default function SearchLocation(
         }
     });
 
-    // sends data back to the react-hook-form controller wrapper component
-    const handleSelect = async (address:string) => {
-        setValue(address, false);
-        clearSuggestions();
-    
-        const results = await getGeocode({ address });
-        const { lat, lng } = await getLatLng(results[0]);
-        onChange(lat + "," + lng);
-      };
+    const handleSelect = ({ description }: Suggestion) =>
+        () => {
+            // When user selects a place, we can replace the keyword without request data from API
+            // by setting the second parameter to "false"
+            setValue(description, false);
+            clearSuggestions();
+
+            // Get latitude and longitude via utility functions
+            getGeocode({ address: description }).then((results) => {
+                const { lat, lng } = getLatLng(results[0]);
+                onChange(lat + "," + lng);
+            });
+        };
+
+    const renderSuggestions = (): any => 
+        data.map((suggestion) => {
+            const {
+                place_id,
+                structured_formatting: { main_text, secondary_text },
+            } = suggestion;
+
+            return (
+                <li 
+                    key={place_id} 
+                    onClick={handleSelect(suggestion)}
+                    className="cursor-pointer hover:bg-neutral-200 m-1 rounded"
+                >
+                    <strong>{main_text}  </strong> 
+                    <small>{secondary_text}</small>
+                </li>
+            );
+        });
 
     return (
-        <Combobox onSelect={handleSelect}>
-            <ComboboxInput 
-                value={value} 
+        <div className="inline-block">
+            <input
+                value={value}
                 onChange={(e)=> {
                     setValue(e.target.value)
-                }} 
+                }}
                 disabled={!ready}
-                className="rounded outline-none" 
-                placeholder="city, zip code, ..."
+                className="rounded outline-none"
+                type="text"
+                placeholder="city, zip code, neighborhood..."
             />
-            <ComboboxPopover>
-                <ComboboxList>
-                    {status === "OK" &&
-                        data.map(({ place_id, description }) => (
-                        <ComboboxOption key={place_id} value={description} />
-                    ))}
-                </ComboboxList>
-            </ComboboxPopover>
-        </Combobox>
+            {status === "OK" && (
+                <ul className="absolute space-y-2 mt-1 -ml-2 w-48 bg-white shadow-md z-40 rounded p-2">
+                    {renderSuggestions()}
+                </ul>
+            )}
+        </div>
     )
 }
 
