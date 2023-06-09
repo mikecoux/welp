@@ -12,6 +12,9 @@ sqlalchemy-serializer = "*"
 importlib-resources = "*"
 importlib-metadata = "*"
 pandas = "*"
+flask-bcrypt = "*"
+faker = "*"
+flask-cors = "*"
 
 [dev-packages]
 

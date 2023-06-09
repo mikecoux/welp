@@ -2,26 +2,48 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { useRouter, useSearchParams } from 'next/navigation';
 import SearchLocation from "./SearchLocation"
 import { useLoadScript } from '@react-google-maps/api'
+import { useUserStore } from "@/stores/UserStore"
+import { shallow } from 'zustand/shallow'
 
 const libraries:any = ["places"]
 
 export default function Navbar () {
-    const [user, setUser] = useState<boolean>(false)
+    const [user, setUser] = useUserStore(
+        (state) => [state.user, state.setUser],
+        shallow
+    )
+    const { register, handleSubmit, control } = useForm()
+    const router = useRouter()
+    const searchParams:any = useSearchParams()!;
+
+    // Maintains logged in functionality after page refresh
+    useEffect(()=>{
+        fetch('/api/check_session')
+        .then((r) => {
+            if(r.ok) {
+                r.json().then((user) => setUser(user))
+            }
+        })
+    }, [])
+
+    function handleLogoutClick() {
+        fetch("/api/logout", { method: "DELETE" }).then((r) => {
+          if (r.ok) {
+            setUser(null);
+          }
+        });
+      }
 
     // Loads the JS script for the Google Maps API with the places library
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGL_MAPS_API_KEY,
         libraries
     });
-
-    const { register, handleSubmit, control } = useForm()
-    const router = useRouter()
-    const searchParams:any = useSearchParams()!;
 
     // creates a query string with data from an object passed as a parameter
     // not sure what useCallback does
@@ -69,7 +91,6 @@ export default function Navbar () {
                 <div className="space-x-2">
                     <Link href='/login'><button 
                         className="bg-white rounded hover:bg-neutral-200 py-1 px-2 outline outline-1 -outline-offset-1 text-black"
-                        onClick={() => setUser(!user)}
                         >
                             Log In
                         </button></Link>
@@ -79,7 +100,7 @@ export default function Navbar () {
                 <div className="space-x-2">
                     <Link href='/'><button 
                         className="bg-white rounded hover:bg-neutral-200 py-1 px-2 outline outline-1 -outline-offset-1 text-black"
-                        onClick={() => setUser(!user)}
+                        onClick={() => handleLogoutClick()}
                         >
                             Sign Out
                         </button></Link>
